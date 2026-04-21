@@ -77,14 +77,46 @@ canvas{display:block;position:fixed;top:0;left:0}
 .tbtn.cyan:active,.tbtn.cyan.pressed{background:radial-gradient(circle,rgba(0,255,255,0.8),rgba(0,255,255,0.3))}
 .tbtn.yellow{border-color:rgba(255,220,0,0.9);background:radial-gradient(circle,rgba(255,200,0,0.4),rgba(120,80,0,0.25));box-shadow:0 0 16px rgba(255,200,0,0.6);color:#fff}
 .tbtn.yellow:active,.tbtn.yellow.pressed{background:radial-gradient(circle,rgba(255,220,0,0.85),rgba(255,180,0,0.4))}
-#t-left{left:22px;bottom:100px;width:92px;height:92px}
-#t-right{left:130px;bottom:100px;width:92px;height:92px}
-#t-gas{right:22px;bottom:110px;width:104px;height:104px}
-#t-brake{right:140px;bottom:110px;width:82px;height:82px;font-size:22px}
-#t-nitro{right:22px;bottom:230px;width:72px;height:72px;font-size:14px}
+.tbtn.red{border-color:rgba(255,60,60,0.9);background:radial-gradient(circle,rgba(255,40,80,0.4),rgba(120,0,20,0.25));box-shadow:0 0 16px rgba(255,60,100,0.6)}
+.tbtn.red:active,.tbtn.red.pressed{background:radial-gradient(circle,rgba(255,60,80,0.85),rgba(255,0,40,0.4))}
+#t-left{left:18px;bottom:18px;width:82px;height:82px}
+#t-right{left:112px;bottom:18px;width:82px;height:82px}
+#t-fire{right:18px;bottom:18px;width:104px;height:104px;font-size:22px;font-weight:900}
+#t-gas{right:132px;bottom:18px;width:82px;height:82px;font-size:18px}
+#t-nitro{right:18px;bottom:140px;width:74px;height:74px;font-size:14px}
+#t-brake{left:18px;bottom:112px;width:62px;height:62px;font-size:18px}
+
+/* HP bar */
+#hp-wrap{position:fixed;bottom:112px;left:18px;z-index:10;pointer-events:none}
+#hp-wrap .lbl{font-size:11px;color:#ff3060;text-shadow:0 0 6px #ff0040;letter-spacing:3px;margin-bottom:4px}
+#hpbar{width:240px;height:14px;background:rgba(40,0,10,0.8);border:1px solid #ff2060;position:relative;overflow:hidden;box-shadow:0 0 8px rgba(255,0,60,0.5)}
+#hpbar-fill{height:100%;width:100%;background:linear-gradient(90deg,#ff0040,#ff00a0,#ff40ff);transition:width 0.2s;box-shadow:0 0 10px #ff0080}
+
+/* Wave banner */
+#wave-banner{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);text-align:center;pointer-events:none;z-index:22;opacity:0;transition:opacity 0.25s,transform 0.3s}
+#wave-banner.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+#wave-banner .big{font-size:74px;color:#fff;text-shadow:0 0 8px #fff,0 0 24px #00ffff,0 0 48px #00ffff,3px 3px 0 #ff00ff;letter-spacing:8px;font-weight:900}
+#wave-banner .small{font-size:16px;color:#ffff00;text-shadow:0 0 8px #ff8800;letter-spacing:6px;margin-top:10px}
+#wave-banner.boss .big{text-shadow:0 0 8px #fff,0 0 24px #ff0040,0 0 48px #ff0040,3px 3px 0 #ffff00;color:#fff}
+#wave-banner.boss .small{color:#ff4040;text-shadow:0 0 8px #ff0040}
+
+/* Crosshair */
+#crosshair{position:fixed;top:42%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;pointer-events:none;z-index:9;opacity:0.5}
+#crosshair::before,#crosshair::after{content:"";position:absolute;background:#00ffff;box-shadow:0 0 8px #00ffff}
+#crosshair::before{top:0;left:50%;width:2px;height:14px;transform:translateX(-50%)}
+#crosshair::after{top:50%;left:0;width:14px;height:2px;transform:translateY(-50%)}
+#crosshair .c2{position:absolute;top:50%;left:50%;width:20px;height:20px;border:1px solid #00ffff;transform:translate(-50%,-50%) rotate(45deg);box-shadow:0 0 6px #00ffff}
+
+/* Boss HP bar top-center */
+#boss-hp{position:fixed;top:70px;left:50%;transform:translateX(-50%);width:60%;max-width:520px;z-index:11;pointer-events:none;display:none}
+#boss-hp.show{display:block}
+#boss-hp .nm{text-align:center;color:#ff0040;text-shadow:0 0 10px #ff0040;letter-spacing:6px;font-size:14px;font-weight:bold;margin-bottom:4px}
+#boss-hp .bar{width:100%;height:16px;background:rgba(20,0,0,0.85);border:2px solid #ff0040;box-shadow:0 0 12px #ff0040,inset 0 0 8px rgba(255,0,80,0.3);overflow:hidden}
+#boss-hp .fill{height:100%;width:100%;background:linear-gradient(90deg,#ff0000,#ff6600,#ffcc00);transition:width 0.2s;box-shadow:0 0 10px #ff4000}
 
 /* Flash effect on crash */
 #flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:35;transition:opacity 0.1s}
+#hurt-flash{position:fixed;inset:0;background:rgba(255,0,60,0.5);opacity:0;pointer-events:none;z-index:34;transition:opacity 0.2s}
 
 /* Scanlines overlay for retro look */
 #scan{position:fixed;inset:0;pointer-events:none;z-index:36;background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 2px,rgba(0,0,0,0.08) 3px,rgba(0,0,0,0) 4px);opacity:0.4;mix-blend-mode:multiply}
@@ -114,12 +146,26 @@ canvas{display:block;position:fixed;top:0;left:0}
 
 <div id="hud" class="hidden">
   <div class="hud-row">
-    <div class="hud-box cyan"><span class="lbl">DIST</span><span class="val" id="hud-dist">0</span></div>
-    <div class="hud-box"><span class="lbl">TIME</span><span class="val" id="hud-time">0.0</span></div>
+    <div class="hud-box cyan"><span class="lbl">WAVE</span><span class="val" id="hud-wave">1</span></div>
+    <div class="hud-box"><span class="lbl">KILLS</span><span class="val" id="hud-kills">0/0</span></div>
     <div class="hud-box cyan"><span class="lbl">SCORE</span><span class="val" id="hud-score">0</span></div>
     <div class="hud-box"><span class="lbl">BEST</span><span class="val" id="hud-best">0</span></div>
   </div>
 </div>
+
+<div id="hp-wrap" class="hidden">
+  <div class="lbl">♥ HP</div>
+  <div id="hpbar"><div id="hpbar-fill"></div></div>
+</div>
+
+<div id="boss-hp">
+  <div class="nm" id="boss-name">◢ BOSS ◣</div>
+  <div class="bar"><div class="fill" id="boss-hp-fill"></div></div>
+</div>
+
+<div id="crosshair" class="hidden"><div class="c2"></div></div>
+
+<div id="wave-banner"><div class="big" id="wave-big">WAVE 1</div><div class="small" id="wave-small">GET READY</div></div>
 
 <div id="speedo" class="hidden">
   <div class="digits" id="speed-val">0</div>
@@ -135,6 +181,7 @@ canvas{display:block;position:fixed;top:0;left:0}
 <div id="announce"><h1 id="ann-h1"></h1><h2 id="ann-h2"></h2></div>
 
 <div id="flash"></div>
+<div id="hurt-flash"></div>
 <div id="scan"></div>
 
 <button id="sfx-toggle" title="Som">♪</button>
@@ -145,10 +192,11 @@ canvas{display:block;position:fixed;top:0;left:0}
     <div class="tag">◢ RETROWAVE RACER ◣</div>
     <div class="panel">
       <p>
-        Pise fundo no asfalto neon e atravesse o horizonte synthwave.<br>
-        <b>PC:</b> setas ou WASD — <b>SHIFT</b> turbo — <b>ESPAÇO</b> freio<br>
-        <b>MOBILE:</b> botões na tela ← → / GÁS / FREIO / NITRO<br>
-        Desvie do tráfego, colete <b>checkpoints</b> e bata seu record.
+        Pise fundo e <b>explode</b> o tráfego no horizonte synthwave.<br>
+        <b>PC:</b> setas/WASD — <b>ESPAÇO</b> atira — <b>SHIFT</b> nitro — <b>B</b> freio<br>
+        <b>MOBILE:</b> ◀ ▶ / <b>FIRE</b> / GÁS / NITRO<br>
+        Sobreviva às <b>waves</b>, destrua carros, derrote o <b>BOSS</b>.<br>
+        A cada 5 waves aparece um <b>carrão</b> que atira de volta.
       </p>
     </div>
     <button id="btn-start">INICIAR CORRIDA ▶</button>
@@ -159,7 +207,8 @@ canvas{display:block;position:fixed;top:0;left:0}
 <div id="gameover">
   <h1>GAME OVER</h1>
   <div class="stats">
-    DISTÂNCIA: <b id="go-dist">0</b> m<br>
+    WAVE: <b id="go-wave">1</b><br>
+    KILLS: <b id="go-kills">0</b><br>
     SCORE: <b id="go-score">0</b><br>
     TEMPO: <b id="go-time">0.0</b> s<br>
     <span id="go-record" style="display:none;color:#ffff00;font-size:20px;text-shadow:0 0 12px #ff8800">★ NOVO RECORDE ★</span>
@@ -170,9 +219,10 @@ canvas{display:block;position:fixed;top:0;left:0}
 <div id="touch">
   <div class="tbtn cyan" id="t-left">◀</div>
   <div class="tbtn cyan" id="t-right">▶</div>
+  <div class="tbtn red" id="t-fire">FIRE</div>
   <div class="tbtn" id="t-gas">GÁS</div>
-  <div class="tbtn" id="t-brake">■</div>
   <div class="tbtn yellow" id="t-nitro">NITRO</div>
+  <div class="tbtn" id="t-brake">■</div>
 </div>
 
 <script type="importmap">
@@ -606,21 +656,228 @@ const TRAFFIC_COLORS = [
   {body:0x202020, accent:0xff0000},
   {body:0xff80ff, accent:0xffff00},
 ];
-function spawnTraffic(zAhead){
-  const col = TRAFFIC_COLORS[(Math.random()*TRAFFIC_COLORS.length)|0];
+function chooseCarType(wave){
+  const cfg = waveConfig(wave);
+  if(cfg.boss) return 'normal';
+  const r = Math.random();
+  if(r < cfg.shooterChance) return 'shooter';
+  if(r < cfg.shooterChance + cfg.armoredChance) return 'armored';
+  return 'normal';
+}
+
+function typeColor(type){
+  if(type === 'shooter') return {body:0x101010, accent:0xffcc00};
+  if(type === 'armored') return {body:0x882020, accent:0xff4040};
+  return TRAFFIC_COLORS[(Math.random()*TRAFFIC_COLORS.length)|0];
+}
+
+function typeHp(type){
+  if(type === 'shooter') return 2;
+  if(type === 'armored') return 3;
+  return 1;
+}
+
+function spawnTraffic(zAhead, wave=1){
+  const type = chooseCarType(wave);
+  const col = typeColor(type);
   const car = buildCar(col.body, col.accent, false);
   const laneIdx = (Math.random()*LANES)|0;
   const lane = LANE_OFF[laneIdx];
   car.position.set(lane, 0, zAhead);
-  // AI speed (slower than player topspeed)
-  const speed = 40 + Math.random()*65; // km/h-ish (relative)
+  const cfg = waveConfig(wave);
+  const sr = cfg.speedRange || [40, 100];
+  const speed = sr[0] + Math.random()*(sr[1]-sr[0]);
   scene.add(car);
-  traffic.push({car, lane, laneIdx, speed, worldZ: zAhead, wobble: Math.random()*Math.PI*2});
+  traffic.push({
+    car, lane, laneIdx, speed, worldZ: zAhead, wobble: Math.random()*Math.PI*2,
+    type, hp: typeHp(type), maxHp: typeHp(type),
+    fireTimer: 1.0 + Math.random()*2.0,
+    colorHex: col.body,
+  });
 }
 
-// seed some cars ahead
-for(let i=0;i<14;i++){
-  spawnTraffic(60 + i*(28 + Math.random()*25));
+function respawnCar(t, wave){
+  const type = chooseCarType(wave);
+  const col = typeColor(type);
+  t.type = type;
+  t.hp = typeHp(type);
+  t.maxHp = t.hp;
+  t.fireTimer = 1.0 + Math.random()*2.0;
+  t.colorHex = col.body;
+  t.car.userData.body.material.color.setHex(col.body);
+  t.car.userData.wheels.forEach(w => w.visible = true);
+  t.car.visible = true;
+  t.worldZ = PLAYER.z + 120 + Math.random()*180;
+  t.laneIdx = (Math.random()*LANES)|0;
+  t.lane = LANE_OFF[t.laneIdx];
+  const cfg = waveConfig(wave);
+  const sr = cfg.speedRange || [40, 100];
+  t.speed = sr[0] + Math.random()*(sr[1]-sr[0]);
+  t.car.position.set(t.lane, 0, t.worldZ);
+  t._prevRel = t.worldZ - PLAYER.z;
+}
+
+// seed pool of cars (max we'll ever need); hide extras
+for(let i=0;i<18;i++){
+  spawnTraffic(999 + i*40, 1);
+  traffic[i].car.visible = false;
+  traffic[i].worldZ = 999;
+}
+
+// ---------- BOSS ----------
+function buildBossCar(){
+  const g = new THREE.Group();
+  const BS = 2.0; // scale
+  const bodyMat = new THREE.MeshLambertMaterial({color: 0x200010});
+  const accentMat = new THREE.MeshBasicMaterial({color: 0xff0040});
+  const glassMat = new THREE.MeshLambertMaterial({color: 0x150005, transparent:true, opacity:0.85});
+  // massive body
+  const body = new THREE.Mesh(new THREE.BoxGeometry(3.4, 1.1, 7.0), bodyMat);
+  body.position.y = 0.9; g.add(body);
+  // bottom glow trim
+  const trim = new THREE.Mesh(new THREE.BoxGeometry(3.5, 0.14, 7.1), accentMat);
+  trim.position.y = 0.3; g.add(trim);
+  // hood
+  const hood = new THREE.Mesh(new THREE.BoxGeometry(3.0, 0.6, 2.4), bodyMat);
+  hood.position.set(0, 1.0, 2.4); g.add(hood);
+  // cabin
+  const cabin = new THREE.Mesh(new THREE.BoxGeometry(2.8, 1.0, 3.0), bodyMat);
+  cabin.position.set(0, 1.8, -0.3); g.add(cabin);
+  // windshield
+  const ws = new THREE.Mesh(new THREE.BoxGeometry(2.7, 0.8, 0.14), glassMat);
+  ws.position.set(0, 1.85, 1.3); ws.rotation.x = -0.3; g.add(ws);
+  // huge wing spoiler
+  const wing = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.18, 0.8), bodyMat);
+  wing.position.set(0, 2.2, -3.5); g.add(wing);
+  const wStand1 = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.7, 0.2), accentMat);
+  wStand1.position.set(-1.3, 1.8, -3.5); g.add(wStand1);
+  const wStand2 = wStand1.clone(); wStand2.position.x = 1.3; g.add(wStand2);
+  // wheels (massive)
+  const wheelGeo = new THREE.CylinderGeometry(0.72, 0.72, 0.55, 12);
+  const wheelMat = new THREE.MeshLambertMaterial({color: 0x0a0005});
+  const wheels = [];
+  for(const [x,z] of [[-1.6,2.3],[1.6,2.3],[-1.6,-2.3],[1.6,-2.3]]){
+    const w = new THREE.Mesh(wheelGeo, wheelMat);
+    w.rotation.z = Math.PI/2;
+    w.position.set(x, 0.72, z);
+    g.add(w); wheels.push(w);
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(0.55, 0.08, 6, 14), accentMat);
+    rim.rotation.y = Math.PI/2;
+    rim.position.set(x + Math.sign(x)*0.3, 0.72, z);
+    g.add(rim);
+  }
+  // cannon barrels (back of car - points toward player behind)
+  const barrelMat = new THREE.MeshBasicMaterial({color: 0xff00a0});
+  for(const xo of [-1.0, 0, 1.0]){
+    const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.18, 1.4, 8), barrelMat);
+    barrel.rotation.x = Math.PI/2;
+    barrel.position.set(xo, 1.3, -3.9);
+    g.add(barrel);
+  }
+  // spikes on front
+  for(const xo of [-1.4, 1.4]){
+    const spike = new THREE.Mesh(new THREE.ConeGeometry(0.22, 0.9, 6), accentMat);
+    spike.rotation.x = Math.PI/2;
+    spike.position.set(xo, 0.85, 3.8);
+    g.add(spike);
+  }
+  // underglow
+  const glow = new THREE.Mesh(
+    new THREE.PlaneGeometry(3.5, 7.0),
+    new THREE.MeshBasicMaterial({color:0xff0040, transparent:true, opacity:0.5, depthWrite:false})
+  );
+  glow.rotation.x = -Math.PI/2; glow.position.y = 0.03;
+  g.add(glow);
+
+  g.userData.wheels = wheels;
+  g.userData.body = body;
+  g.userData.underglow = glow;
+  return g;
+}
+
+function spawnBoss(wave){
+  const cfg = waveConfig(wave);
+  const mesh = buildBossCar();
+  mesh.position.set(0, 0, PLAYER.z + 80);
+  scene.add(mesh);
+  GAME.boss = {
+    mesh,
+    hp: cfg.bossHp, maxHp: cfg.bossHp,
+    targetX: 0, x: 0,
+    laneDir: 1, laneChange: 0,
+    worldZ: PLAYER.z + 80,
+    speed: cfg.bossSpeed,
+    fireTimer: 1.5,
+    fireRate: cfg.bossFireRate,
+    bulletCount: cfg.bossBullets,
+    intro: 1.0, // intro cinematic time
+  };
+  GAME.bossActive = true;
+  document.getElementById('boss-hp').classList.add('show');
+  document.getElementById('boss-name').textContent = `◢ ${cfg.title} ◣`;
+  updateBossHp();
+  // hide all traffic during boss
+  traffic.forEach(t => { t.car.visible = false; t.worldZ = -999; });
+}
+
+function updateBossHp(){
+  if(!GAME.boss){
+    document.getElementById('boss-hp-fill').style.width = '0%';
+    return;
+  }
+  const pct = Math.max(0, GAME.boss.hp / GAME.boss.maxHp) * 100;
+  document.getElementById('boss-hp-fill').style.width = pct.toFixed(1) + '%';
+}
+
+function killBoss(){
+  if(!GAME.boss) return;
+  const b = GAME.boss;
+  spawnExplosion(b.mesh.position.x, 1.5, b.mesh.position.z, true);
+  setTimeout(()=> spawnExplosion(b.mesh.position.x-1, 1.5, b.mesh.position.z, true), 120);
+  setTimeout(()=> spawnExplosion(b.mesh.position.x+1, 1.5, b.mesh.position.z, true), 220);
+  scene.remove(b.mesh);
+  GAME.boss = null;
+  GAME.bossActive = false;
+  GAME.score += 3000;
+  document.getElementById('boss-hp').classList.remove('show');
+  GAME.cameraShake = 2.0;
+  announce('BOSS DOWN!', '+3000 pontos', 1.6);
+  // advance to next wave
+  setTimeout(()=> startWave(GAME.wave + 1), 1600);
+}
+
+function startWave(n){
+  GAME.wave = n;
+  GAME.waveKills = 0;
+  const cfg = waveConfig(n);
+  // show banner
+  const banner = document.getElementById('wave-banner');
+  const big = document.getElementById('wave-big');
+  const small = document.getElementById('wave-small');
+  big.textContent = cfg.title;
+  small.textContent = cfg.subtitle;
+  banner.classList.remove('boss');
+  if(cfg.boss) banner.classList.add('boss');
+  banner.classList.add('show');
+  setTimeout(()=> banner.classList.remove('show'), 1800);
+  if(audioStarted) cfg.boss ? sfxBossIntro() : sfxWaveStart();
+
+  if(cfg.boss){
+    spawnBoss(n);
+    GAME.waveGoal = 1;
+  } else {
+    GAME.waveGoal = cfg.killGoal;
+    // spawn cars within pool
+    const needed = cfg.carCount;
+    traffic.forEach((t,i)=>{
+      if(i < needed){
+        respawnCar(t, n);
+      } else {
+        t.car.visible = false;
+        t.worldZ = -999;
+      }
+    });
+  }
 }
 
 // ---------- Checkpoints (gates with timer bonus) ----------
@@ -926,6 +1183,100 @@ function sfxCheckpoint(){
     o.connect(g); g.connect(sfxGain); o.start(now+i*0.05); o.stop(now+i*0.05+0.4);
   });
 }
+function sfxFire(){
+  if(!audioCtx) return;
+  const now = audioCtx.currentTime;
+  const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+  const f = audioCtx.createBiquadFilter(); f.type='bandpass'; f.frequency.value = 1400; f.Q.value = 6;
+  o.type='square'; o.frequency.setValueAtTime(1200, now);
+  o.frequency.exponentialRampToValueAtTime(340, now+0.1);
+  g.gain.setValueAtTime(0.0001, now);
+  g.gain.exponentialRampToValueAtTime(0.22, now+0.005);
+  g.gain.exponentialRampToValueAtTime(0.0001, now+0.12);
+  o.connect(f); f.connect(g); g.connect(sfxGain);
+  o.start(now); o.stop(now+0.15);
+}
+function sfxEnemyFire(){
+  if(!audioCtx) return;
+  const now = audioCtx.currentTime;
+  const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+  o.type='sawtooth'; o.frequency.setValueAtTime(220, now);
+  o.frequency.exponentialRampToValueAtTime(90, now+0.18);
+  g.gain.setValueAtTime(0.0001, now);
+  g.gain.exponentialRampToValueAtTime(0.28, now+0.005);
+  g.gain.exponentialRampToValueAtTime(0.0001, now+0.2);
+  o.connect(g); g.connect(sfxGain);
+  o.start(now); o.stop(now+0.22);
+}
+function sfxExplode(){
+  if(!audioCtx) return;
+  const now = audioCtx.currentTime;
+  const len = audioCtx.sampleRate*0.55;
+  const buf = audioCtx.createBuffer(1, len, audioCtx.sampleRate);
+  const d = buf.getChannelData(0);
+  for(let i=0;i<len;i++) d[i] = (Math.random()*2-1) * Math.pow(1 - i/len, 0.6);
+  const ns = audioCtx.createBufferSource(); ns.buffer = buf;
+  const lp = audioCtx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value = 900;
+  const g = audioCtx.createGain(); g.gain.value = 0.5;
+  ns.connect(lp); lp.connect(g); g.connect(sfxGain);
+  ns.start(now); ns.stop(now+0.6);
+  // sub boom
+  const o = audioCtx.createOscillator(); const g2 = audioCtx.createGain();
+  o.type='sine'; o.frequency.setValueAtTime(160, now);
+  o.frequency.exponentialRampToValueAtTime(35, now+0.4);
+  g2.gain.setValueAtTime(0.5, now);
+  g2.gain.exponentialRampToValueAtTime(0.0001, now+0.45);
+  o.connect(g2); g2.connect(sfxGain);
+  o.start(now); o.stop(now+0.5);
+}
+function sfxBigBoom(){
+  if(!audioCtx) return;
+  sfxExplode();
+  const now = audioCtx.currentTime;
+  const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+  o.type='sawtooth'; o.frequency.setValueAtTime(90, now);
+  o.frequency.exponentialRampToValueAtTime(20, now+0.8);
+  g.gain.setValueAtTime(0.7, now);
+  g.gain.exponentialRampToValueAtTime(0.0001, now+0.9);
+  o.connect(g); g.connect(sfxGain);
+  o.start(now); o.stop(now+1.0);
+}
+function sfxHurt(){
+  if(!audioCtx) return;
+  const now = audioCtx.currentTime;
+  const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+  o.type='triangle'; o.frequency.setValueAtTime(300, now);
+  o.frequency.exponentialRampToValueAtTime(110, now+0.2);
+  g.gain.setValueAtTime(0.0001, now);
+  g.gain.exponentialRampToValueAtTime(0.4, now+0.005);
+  g.gain.exponentialRampToValueAtTime(0.0001, now+0.22);
+  o.connect(g); g.connect(sfxGain);
+  o.start(now); o.stop(now+0.25);
+}
+function sfxWaveStart(){
+  if(!audioCtx) return;
+  const now = audioCtx.currentTime;
+  [330, 440, 550, 660].forEach((f,i)=>{
+    const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+    o.type='square'; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, now + i*0.08);
+    g.gain.exponentialRampToValueAtTime(0.22, now + i*0.08 + 0.005);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + i*0.08 + 0.25);
+    o.connect(g); g.connect(sfxGain); o.start(now+i*0.08); o.stop(now+i*0.08+0.3);
+  });
+}
+function sfxBossIntro(){
+  if(!audioCtx) return;
+  const now = audioCtx.currentTime;
+  [82, 82, 82, 123, 110, 82].forEach((f,i)=>{
+    const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+    o.type='sawtooth'; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, now + i*0.18);
+    g.gain.exponentialRampToValueAtTime(0.5, now + i*0.18 + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + i*0.18 + 0.25);
+    o.connect(g); g.connect(sfxGain); o.start(now+i*0.18); o.stop(now+i*0.18+0.3);
+  });
+}
 function sfxUiBeep(freq=660){
   if(!audioCtx) return;
   const now = audioCtx.currentTime;
@@ -944,32 +1295,129 @@ const STATE = {MENU:0, PLAYING:1, GAMEOVER:2};
 let state = STATE.MENU;
 
 const PLAYER = {
-  x: 0,
-  vx: 0,
-  z: 0,              // world progress along road (also how much we've "traveled")
-  speed: 0,          // km/h display
-  maxSpeed: 310,
-  baseTopSpeed: 260,
-  boostTopSpeed: 360,
-  accel: 60,         // units/sec of km/h increase
-  brakeDecel: 160,
-  drag: 18,
-  steer: 0,          // -1..1
-  nitro: 1.0,        // 0..1
-  boosting: false,
+  x: 0, vx: 0, z: 0,
+  speed: 0, maxSpeed: 310,
+  baseTopSpeed: 260, boostTopSpeed: 360,
+  accel: 60, brakeDecel: 160, drag: 18,
+  nitro: 1.0, boosting: false,
+  hp: 5, maxHp: 5,
+  fireTimer: 0, fireCooldown: 0.22,
+  invuln: 0,
 };
 
 const GAME = {
-  distance: 0,       // meters traveled
-  time: 0,           // seconds since start
-  score: 0,
-  timeLeft: 60,      // countdown; checkpoints add time
+  distance: 0, time: 0, score: 0,
   best: parseInt(localStorage.getItem('neondrive_best')||'0', 10),
-  crashed: false,
-  crashTimer: 0,
-  cameraShake: 0,
-  nextCheckpointZ: 250,
+  crashed: false, crashTimer: 0, cameraShake: 0,
+  wave: 1, waveKills: 0, waveGoal: 8,
+  totalKills: 0, bossActive: false, boss: null,
+  waveTransition: 0, // timer while showing wave banner
 };
+
+// ---------- Wave Configuration ----------
+function waveConfig(n){
+  const isBoss = n % 5 === 0;
+  if(isBoss){
+    const tier = Math.floor(n/5);
+    return {
+      boss: true,
+      bossHp: 18 + tier*12,
+      bossSpeed: 90 + tier*10,
+      bossFireRate: Math.max(0.65, 1.4 - tier*0.12),
+      bossBullets: Math.min(5, 2 + tier),
+      title: `BOSS ${tier}`,
+      subtitle: '◢ CARRÃO INIMIGO ◣',
+    };
+  }
+  return {
+    boss: false,
+    killGoal: 6 + n*2,
+    carCount: Math.min(18, 8 + Math.floor(n*1.2)),
+    speedRange: [35 + n*2.5, 75 + n*4],
+    armoredChance: Math.min(0.45, 0.05 + n*0.06),
+    shooterChance: Math.min(0.35, Math.max(0, (n-1)*0.04)),
+    title: `WAVE ${n}`,
+    subtitle: n === 1 ? 'GET READY!' : `DESTRUA ${6 + n*2} CARROS`,
+  };
+}
+
+// ---------- Bullets / Projectiles ----------
+const bullets = [];       // player bullets {mesh, vx, vy, vz, z, life}
+const enemyBullets = [];  // enemy bullets {mesh, vx, vy, vz, z, life}
+const explosions = [];    // {group, age, maxAge}
+
+function makeBulletMesh(color, scale=1){
+  const g = new THREE.Group();
+  const core = new THREE.Mesh(
+    new THREE.SphereGeometry(0.22*scale, 8, 6),
+    new THREE.MeshBasicMaterial({color})
+  );
+  g.add(core);
+  // trail plane
+  const trail = new THREE.Mesh(
+    new THREE.PlaneGeometry(0.18*scale, 2.4*scale),
+    new THREE.MeshBasicMaterial({color, transparent:true, opacity:0.55, depthWrite:false})
+  );
+  trail.position.z = -1.2*scale;
+  g.add(trail);
+  return g;
+}
+
+function spawnPlayerBullet(){
+  // alternate bullet lateral offset covers more width
+  const side = (bullets.length%2===0) ? -0.6 : 0.6;
+  const m = makeBulletMesh(0x00ffff, 1.1);
+  m.position.set(PLAYER.x + side, 0.8, PLAYER.z + 2.4);
+  scene.add(m);
+  bullets.push({mesh:m, vx:0, vy:0, vz:160, life:1.5});
+  if(audioStarted) sfxFire();
+  // muzzle flash
+  const flash = new THREE.Mesh(
+    new THREE.SphereGeometry(0.5, 8, 6),
+    new THREE.MeshBasicMaterial({color:0xffffff, transparent:true, opacity:0.9})
+  );
+  flash.position.set(PLAYER.x + side, 0.8, PLAYER.z + 2.6);
+  scene.add(flash);
+  explosions.push({group: flash, age:0, maxAge:0.12, kind:'flash'});
+}
+
+function spawnEnemyBullet(fromX, fromZ, vzRel){
+  const m = makeBulletMesh(0xff3030, 1.15);
+  m.position.set(fromX, 0.8, fromZ);
+  m.rotation.y = Math.PI; // trail behind
+  scene.add(m);
+  enemyBullets.push({mesh:m, vx:0, vy:0, vz:vzRel, life:3.0});
+  if(audioStarted) sfxEnemyFire();
+}
+
+function spawnExplosion(x, y, z, big=false){
+  const g = new THREE.Group();
+  g.position.set(x, y, z);
+  scene.add(g);
+  const nSpark = big ? 24 : 14;
+  for(let i=0;i<nSpark;i++){
+    const c = i % 3 === 0 ? 0xffff40 : (i%3===1 ? 0xff8000 : 0xff2040);
+    const sp = new THREE.Mesh(
+      new THREE.SphereGeometry(big?0.35:0.22, 6, 4),
+      new THREE.MeshBasicMaterial({color:c, transparent:true, opacity:1})
+    );
+    const a = Math.random()*Math.PI*2;
+    const p = Math.random()*Math.PI - Math.PI/2;
+    const s = (big?12:7) + Math.random()*(big?14:8);
+    sp.userData.v = [Math.cos(a)*Math.cos(p)*s, Math.abs(Math.sin(p))*s + 3, Math.sin(a)*Math.cos(p)*s];
+    g.add(sp);
+  }
+  // ring flash
+  const ring = new THREE.Mesh(
+    new THREE.RingGeometry(0.2, big?2.0:1.2, 18),
+    new THREE.MeshBasicMaterial({color:0xffff80, transparent:true, opacity:0.9, side:THREE.DoubleSide, depthWrite:false})
+  );
+  ring.rotation.x = -Math.PI/2;
+  ring.position.y = 0.2;
+  g.add(ring);
+  explosions.push({group: g, age:0, maxAge: big?1.2:0.7, kind:'boom'});
+  if(audioStarted) big ? sfxBigBoom() : sfxExplode();
+}
 
 // Input
 const keys = {};
@@ -983,7 +1431,7 @@ addEventListener('keydown', e => {
 addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
 
 // Touch
-const touchState = {left:false, right:false, gas:false, brake:false, nitro:false};
+const touchState = {left:false, right:false, gas:false, brake:false, nitro:false, fire:false};
 function bindTouch(id, field){
   const el = document.getElementById(id);
   const on = (e)=>{ e.preventDefault(); touchState[field] = true; el.classList.add('pressed'); };
@@ -1000,6 +1448,7 @@ bindTouch('t-right','right');
 bindTouch('t-gas','gas');
 bindTouch('t-brake','brake');
 bindTouch('t-nitro','nitro');
+bindTouch('t-fire','fire');
 
 // =============================================================
 //  UI helpers
@@ -1025,6 +1474,8 @@ function setHudVisible(v){
   hud.classList.toggle('hidden', !v);
   speedo.classList.toggle('hidden', !v);
   nitroWrap.classList.toggle('hidden', !v);
+  document.getElementById('hp-wrap').classList.toggle('hidden', !v);
+  document.getElementById('crosshair').classList.toggle('hidden', !v);
   if(IS_TOUCH) touchEl.classList.toggle('show', v);
 }
 
@@ -1046,51 +1497,42 @@ sfxBtn.addEventListener('click', ()=>{
 //  GAME LIFECYCLE
 // =============================================================
 function startGame(){
-  // Reset player
   PLAYER.x = 0; PLAYER.vx = 0; PLAYER.z = 0;
   PLAYER.speed = 60; PLAYER.nitro = 1.0; PLAYER.boosting = false;
+  PLAYER.hp = PLAYER.maxHp; PLAYER.fireTimer = 0; PLAYER.invuln = 1.0;
   player.position.set(0, 0, 0);
   player.rotation.set(0, 0, 0);
 
-  // Reset game
   GAME.distance = 0; GAME.time = 0; GAME.score = 0;
-  GAME.timeLeft = 60; GAME.crashed = false; GAME.crashTimer = 0;
-  GAME.cameraShake = 0; GAME.nextCheckpointZ = 250;
+  GAME.crashed = false; GAME.crashTimer = 0; GAME.cameraShake = 0;
+  GAME.wave = 1; GAME.waveKills = 0; GAME.totalKills = 0;
+  GAME.bossActive = false; GAME._advancing = false;
 
-  // reset checkpoints
+  // kill any existing bullets / explosions / boss
+  bullets.forEach(b => scene.remove(b.mesh)); bullets.length = 0;
+  enemyBullets.forEach(b => scene.remove(b.mesh)); enemyBullets.length = 0;
+  explosions.forEach(e => scene.remove(e.group)); explosions.length = 0;
+  if(GAME.boss){ scene.remove(GAME.boss.mesh); GAME.boss = null; }
+  document.getElementById('boss-hp').classList.remove('show');
+
+  // hide all traffic first
+  traffic.forEach(t => { t.car.visible = false; t.worldZ = -999; });
+
   checkpoints.forEach((cp, i)=>{
     cp.passed = false;
-    cp.z = (i+1) * 250;
-    cp.mesh.position.z = 0; // we position via cp.z each frame
+    cp.z = (i+1) * 300;
     cp.mesh.visible = true;
+    repositionCheckpoint(cp);
   });
-
-  // reset traffic — first ~4 cars far ahead, outer lanes only, for safe start
-  traffic.forEach((t,i)=>{
-    if(i < 4){
-      // outer lanes only (0 or 3) to keep center clear
-      t.laneIdx = i % 2 === 0 ? 0 : 3;
-      t.worldZ = 220 + i * 60;
-    } else {
-      t.laneIdx = (Math.random()*LANES)|0;
-      t.worldZ = 380 + (i-4) * (40 + Math.random()*30);
-    }
-    t.lane = LANE_OFF[t.laneIdx];
-    t.speed = 40 + Math.random()*65;
-    t.car.position.x = t.lane;
-    t.car.position.z = t.worldZ;
-    t._prevRel = t.worldZ - PLAYER.z;
-  });
-
-  // reset props (randomize offsets)
-  // (no need; their z is absolute and we render relative)
 
   splash.style.display = 'none';
   gameover.classList.remove('show');
   setHudVisible(true);
   state = STATE.PLAYING;
-  announce('GO!', '◢ NEON DRIVE ◣', 1.0);
   if(audioStarted) sfxUiBeep(800);
+
+  // start wave 1
+  startWave(1);
 }
 
 function endGame(){
@@ -1100,7 +1542,8 @@ function endGame(){
     GAME.best = GAME.score;
     localStorage.setItem('neondrive_best', GAME.best.toString());
   }
-  document.getElementById('go-dist').textContent = Math.floor(GAME.distance);
+  document.getElementById('go-wave').textContent = GAME.wave;
+  document.getElementById('go-kills').textContent = GAME.totalKills;
   document.getElementById('go-score').textContent = GAME.score;
   document.getElementById('go-time').textContent = GAME.time.toFixed(1);
   document.getElementById('go-record').style.display = isRecord ? 'inline-block' : 'none';
@@ -1141,17 +1584,26 @@ function now(){ return performance.now(); }
 function updatePlaying(dt){
   GAME.time += dt;
 
-  // --- Input: steering ---
+  // --- Input ---
   const turningLeft = keys['arrowleft'] || keys['a'] || touchState.left;
   const turningRight = keys['arrowright'] || keys['d'] || touchState.right;
-  const accelerating = keys['arrowup'] || keys['w'] || touchState.gas || (!IS_TOUCH); // autoforward on desktop is off by default — wait, we want W/Up to accelerate
-  const braking = keys['arrowdown'] || keys['s'] || keys[' '] || touchState.brake;
+  const accelerating = keys['arrowup'] || keys['w'] || touchState.gas || (!IS_TOUCH);
+  const braking = keys['arrowdown'] || keys['s'] || keys['b'] || touchState.brake;
   const boostInput = keys['shift'] || touchState.nitro;
+  const fireInput = keys[' '] || keys['x'] || keys['z'] || keys['f'] || touchState.fire;
 
-  // Steering
+  // --- Firing ---
+  PLAYER.fireTimer -= dt;
+  if(PLAYER.invuln > 0) PLAYER.invuln -= dt;
+  if(fireInput && PLAYER.fireTimer <= 0 && !GAME.crashed){
+    spawnPlayerBullet();
+    PLAYER.fireTimer = PLAYER.fireCooldown;
+  }
+
+  // Steering (screen-aligned: camera looks +Z so world +X is screen-left; flip signs)
   let steerInput = 0;
-  if(turningLeft) steerInput -= 1;
-  if(turningRight) steerInput += 1;
+  if(turningLeft) steerInput += 1;
+  if(turningRight) steerInput -= 1;
   // Steering intensity scales slightly with speed (more twitch at high speed)
   const speedFrac = PLAYER.speed / PLAYER.maxSpeed;
   PLAYER.vx += steerInput * (22 + speedFrac*10) * dt;
@@ -1207,13 +1659,6 @@ function updatePlaying(dt){
   // Scroll road UV for dashed stripes moving
   roadTex.offset.y = (-PLAYER.z * 0.025) % 1;
 
-  // Countdown (Top-Gear style)
-  GAME.timeLeft -= dt;
-  if(GAME.timeLeft <= 0 && !GAME.crashed){
-    GAME.timeLeft = 0;
-    triggerCrash(true);
-  }
-
   // --- Update props (recycle past camera) ---
   for(const p of props){
     const relZ = p.mesh.position.z - PLAYER.z;
@@ -1242,81 +1687,232 @@ function updatePlaying(dt){
   // Sun follows
   sunMesh.position.z = PLAYER.z + 900;
 
-  // --- Update traffic ---
-  for(const t of traffic){
-    // AI cars move forward, slower than player typically
-    const aiWorldSpeed = t.speed * 0.5; // units/sec
-    t.worldZ += aiWorldSpeed * dt;
-    t.wobble += dt * 2;
-    // slight lane drift
-    t.car.position.x += Math.sin(t.wobble)*0.01;
-    t.car.position.x += (t.lane - t.car.position.x) * Math.min(1, dt*2);
-    t.car.position.z = t.worldZ;
-
-    // Wheel spin
-    t.car.userData.wheels.forEach(w => w.rotation.x -= aiWorldSpeed * dt * 1.2);
-
-    // recycle behind
-    const relZ = t.worldZ - PLAYER.z;
-    if(relZ < -40){
-      t.worldZ = PLAYER.z + 240 + Math.random()*120;
-      t.laneIdx = (Math.random()*LANES)|0;
-      t.lane = LANE_OFF[t.laneIdx];
-      t.speed = 40 + Math.random()*65;
-      // give car a random new color
-      const col = TRAFFIC_COLORS[(Math.random()*TRAFFIC_COLORS.length)|0];
-      t.car.userData.body.material.color.setHex(col.body);
-    }
-  }
-
-  // --- Collisions ---
-  if(!GAME.crashed){
+  // --- Update traffic (regular cars) ---
+  if(!GAME.bossActive){
     for(const t of traffic){
-      const dz = t.worldZ - PLAYER.z;
-      const dx = t.car.position.x - PLAYER.x;
-      if(Math.abs(dz) < 2.6 && Math.abs(dx) < 1.5){
-        triggerCrash(false);
-        break;
+      if(!t.car.visible) continue;
+      const aiWorldSpeed = t.speed * 0.5;
+      t.worldZ += aiWorldSpeed * dt;
+      t.wobble += dt * 2;
+      t.car.position.x += (t.lane - t.car.position.x) * Math.min(1, dt*2.5);
+      t.car.position.z = t.worldZ;
+      t.car.userData.wheels.forEach(w => w.rotation.x -= aiWorldSpeed * dt * 1.2);
+
+      // Shooter behavior: fire back if within range and ahead
+      if(t.type === 'shooter'){
+        const rel = t.worldZ - PLAYER.z;
+        t.fireTimer -= dt;
+        if(t.fireTimer <= 0 && rel > 15 && rel < 140){
+          // Fire bullet backward (toward player, so vz negative in world)
+          spawnEnemyBullet(t.car.position.x, t.worldZ - 2.5, -120);
+          t.fireTimer = 1.4 + Math.random()*1.0;
+        }
+      }
+
+      // recycle behind — but only if wave still needs kills
+      const relZ = t.worldZ - PLAYER.z;
+      if(relZ < -40){
+        if(GAME.waveKills < GAME.waveGoal){
+          respawnCar(t, GAME.wave);
+        } else {
+          t.car.visible = false;
+          t.worldZ = -999;
+        }
       }
     }
   }
 
-  // --- Checkpoints ---
-  for(const cp of checkpoints){
-    cp.mesh.position.z = 0; // gate mesh positions already absolute in z
-    if(!cp.passed && PLAYER.z > cp.z){
-      cp.passed = true;
-      GAME.timeLeft += 15;
-      GAME.score += 500;
-      announce('+15s', '◢ CHECKPOINT ◣', 1.2);
-      if(audioStarted) sfxCheckpoint();
-      // recycle this checkpoint far ahead
-      cp.z = Math.max(...checkpoints.map(c => c.z)) + 250;
-      cp.passed = false;
-      // update gate mesh absolute position
-      const gate = cp.mesh;
-      gate.children.forEach(ch => {
-        // all children were placed at absolute z = old cp.z originally; just move all by delta
-      });
-      // easier: re-position all children relative to new z
-      repositionCheckpoint(cp);
+  // --- Player bullets ---
+  for(let i=bullets.length-1;i>=0;i--){
+    const b = bullets[i];
+    b.mesh.position.z += b.vz * dt;
+    b.life -= dt;
+    let hit = false;
+    // boss hit
+    if(GAME.boss){
+      const bz = b.mesh.position.z - GAME.boss.mesh.position.z;
+      const bx = b.mesh.position.x - GAME.boss.mesh.position.x;
+      if(Math.abs(bz) < 4.2 && Math.abs(bx) < 2.4){
+        GAME.boss.hp -= 1;
+        updateBossHp();
+        GAME.score += 25;
+        spawnExplosion(b.mesh.position.x, 1.2, b.mesh.position.z, false);
+        // flash boss red
+        GAME.boss.mesh.userData.body.material.color.setHex(0xff4080);
+        setTimeout(()=>{ if(GAME.boss) GAME.boss.mesh.userData.body.material.color.setHex(0x200010); }, 80);
+        hit = true;
+        if(GAME.boss.hp <= 0){ killBoss(); }
+      }
+    }
+    // traffic hit
+    if(!hit){
+      for(const t of traffic){
+        if(!t.car.visible) continue;
+        const dz = b.mesh.position.z - t.worldZ;
+        const dx = b.mesh.position.x - t.car.position.x;
+        if(Math.abs(dz) < 2.6 && Math.abs(dx) < 1.7){
+          t.hp -= 1;
+          if(t.hp <= 0){
+            spawnExplosion(t.car.position.x, 0.8, t.worldZ, false);
+            GAME.score += 100 + (t.type==='armored'?80:0) + (t.type==='shooter'?120:0);
+            GAME.waveKills += 1;
+            GAME.totalKills += 1;
+            t.car.visible = false;
+            t.worldZ = -999;
+          } else {
+            // flash
+            t.car.userData.body.material.color.setHex(0xffffff);
+            setTimeout(()=>{ if(t.car.visible) t.car.userData.body.material.color.setHex(t.colorHex); }, 60);
+          }
+          hit = true;
+          break;
+        }
+      }
+    }
+    if(hit || b.life <= 0 || b.mesh.position.z - PLAYER.z > 400){
+      scene.remove(b.mesh);
+      bullets.splice(i, 1);
     }
   }
 
-  // --- Scoring ---
-  // base: 1pt per meter, bonus for speed, for passing cars
-  GAME.score = Math.floor(GAME.distance * 1.0) + GAME.passBonus || Math.floor(GAME.distance * 1.0);
-  // Pass bonus: detect cars transitioning from ahead to behind this frame
-  for(const t of traffic){
-    const rel = t.worldZ - PLAYER.z;
-    if(t._prevRel !== undefined && t._prevRel > 0 && rel <= 0){
-      GAME.passBonus = (GAME.passBonus||0) + (PLAYER.boosting ? 150 : 80);
-      // tiny blip
-      if(audioStarted) sfxUiBeep(880 + Math.random()*180);
+  // --- Enemy bullets ---
+  for(let i=enemyBullets.length-1;i>=0;i--){
+    const b = enemyBullets[i];
+    b.mesh.position.z += b.vz * dt;
+    b.life -= dt;
+    let hit = false;
+    const dz = b.mesh.position.z - PLAYER.z;
+    const dx = b.mesh.position.x - PLAYER.x;
+    if(PLAYER.invuln <= 0 && Math.abs(dz) < 2.2 && Math.abs(dx) < 1.2){
+      playerHit(1);
+      hit = true;
     }
-    t._prevRel = rel;
+    if(hit || b.life <= 0 || b.mesh.position.z < PLAYER.z - 40){
+      scene.remove(b.mesh);
+      enemyBullets.splice(i, 1);
+    }
   }
-  GAME.score = Math.floor(GAME.distance) + (GAME.passBonus||0) + (GAME.checkpointBonus||0);
+
+  // --- Explosions (animate particles) ---
+  for(let i=explosions.length-1;i>=0;i--){
+    const ex = explosions[i];
+    ex.age += dt;
+    const t01 = ex.age / ex.maxAge;
+    ex.group.children.forEach(ch => {
+      if(ch.userData.v){
+        ch.position.x += ch.userData.v[0] * dt;
+        ch.position.y += ch.userData.v[1] * dt;
+        ch.position.z += ch.userData.v[2] * dt;
+        ch.userData.v[1] -= 30 * dt; // gravity
+      }
+      if(ch.material && ch.material.opacity !== undefined){
+        ch.material.opacity = Math.max(0, 1 - t01);
+      }
+      if(ch.geometry && ch.geometry.type === 'RingGeometry'){
+        const s = 1 + t01 * 6;
+        ch.scale.set(s, s, s);
+      }
+    });
+    if(ex.age >= ex.maxAge){
+      scene.remove(ex.group);
+      ex.group.traverse(o => { if(o.geometry) o.geometry.dispose(); if(o.material) o.material.dispose(); });
+      explosions.splice(i, 1);
+    }
+  }
+
+  // --- Boss update ---
+  if(GAME.boss){
+    const b = GAME.boss;
+    // intro: bring boss from far to ~60 ahead of player
+    const aiSpeed = b.speed * 0.5;
+    const targetAhead = 65;
+    const desiredZ = PLAYER.z + targetAhead;
+    b.worldZ += (desiredZ - b.worldZ) * Math.min(1, dt * 1.2);
+    b.mesh.position.z = b.worldZ;
+    // side-to-side weaving
+    b.laneChange -= dt;
+    if(b.laneChange <= 0){
+      b.targetX = (Math.random()-0.5) * (ROAD_W - 4);
+      b.laneChange = 1.2 + Math.random()*0.8;
+    }
+    // move toward target x
+    b.x += (b.targetX - b.x) * Math.min(1, dt*2.2);
+    b.mesh.position.x = b.x;
+    b.mesh.userData.wheels.forEach(w => w.rotation.x -= aiSpeed * dt * 1.5);
+    // underglow pulse
+    const ug = b.mesh.userData.underglow;
+    ug.material.opacity = 0.45 + Math.sin(now()/140)*0.12;
+    // rotate a tiny bit
+    b.mesh.rotation.y = Math.sin(now()/800)*0.08;
+
+    // fire at player
+    b.fireTimer -= dt;
+    if(b.fireTimer <= 0){
+      const count = b.bulletCount;
+      const spread = 1.6;
+      for(let k=0;k<count;k++){
+        const ox = (k - (count-1)/2) * spread;
+        spawnEnemyBullet(b.x + ox, b.worldZ - 4, -140);
+      }
+      b.fireTimer = b.fireRate;
+    }
+  }
+
+  // --- Wave progression (advance when kills goal met, non-boss) ---
+  if(!GAME.bossActive && GAME.waveKills >= GAME.waveGoal){
+    // short delay then next wave
+    if(!GAME._advancing){
+      GAME._advancing = true;
+      announce('WAVE CLEAR!', '+500 BÔNUS', 1.2);
+      GAME.score += 500;
+      if(audioStarted) sfxCheckpoint();
+      setTimeout(()=>{ GAME._advancing = false; startWave(GAME.wave + 1); }, 1400);
+    }
+  }
+
+  // --- Collisions: player vs traffic / boss ---
+  if(!GAME.crashed && PLAYER.invuln <= 0){
+    for(const t of traffic){
+      if(!t.car.visible) continue;
+      const dz = t.worldZ - PLAYER.z;
+      const dx = t.car.position.x - PLAYER.x;
+      if(Math.abs(dz) < 2.6 && Math.abs(dx) < 1.5){
+        // ramming damage (not instant kill)
+        playerHit(2);
+        // bounce car away
+        spawnExplosion(t.car.position.x, 0.6, t.worldZ, false);
+        t.car.visible = false; t.worldZ = -999;
+        GAME.waveKills += 1;
+        break;
+      }
+    }
+    if(GAME.boss){
+      const dz = GAME.boss.worldZ - PLAYER.z;
+      const dx = GAME.boss.mesh.position.x - PLAYER.x;
+      if(Math.abs(dz) < 4.5 && Math.abs(dx) < 2.2){
+        playerHit(2);
+      }
+    }
+  }
+
+  // --- Checkpoints (score + heal 1 HP, no time) ---
+  for(const cp of checkpoints){
+    cp.mesh.position.z = 0;
+    if(!cp.passed && PLAYER.z > cp.z){
+      cp.passed = true;
+      GAME.score += 300;
+      if(PLAYER.hp < PLAYER.maxHp){
+        PLAYER.hp = Math.min(PLAYER.maxHp, PLAYER.hp + 1);
+        announce('+1 HP', '◢ CHECKPOINT ◣', 1.1);
+      } else {
+        announce('+300', '◢ CHECKPOINT ◣', 1.1);
+      }
+      if(audioStarted) sfxCheckpoint();
+      cp.z = Math.max(...checkpoints.map(c => c.z)) + 250;
+      cp.passed = false;
+      repositionCheckpoint(cp);
+    }
+  }
 
   // --- Camera ---
   const baseCamX = PLAYER.x * 0.35;
@@ -1366,10 +1962,16 @@ function updatePlaying(dt){
   document.getElementById('speed-val').textContent = Math.floor(PLAYER.speed);
   document.getElementById('speedbar-fill').style.width = (speedFrac*100).toFixed(1) + '%';
   document.getElementById('nitrobar-fill').style.width = (PLAYER.nitro*100).toFixed(1) + '%';
-  document.getElementById('hud-dist').textContent = Math.floor(GAME.distance) + 'm';
-  document.getElementById('hud-time').textContent = Math.max(0, GAME.timeLeft).toFixed(1);
+  document.getElementById('hpbar-fill').style.width = ((PLAYER.hp/PLAYER.maxHp)*100).toFixed(1) + '%';
+  document.getElementById('hud-wave').textContent = GAME.wave;
+  document.getElementById('hud-kills').textContent = GAME.bossActive ? '◢BOSS◣' : (GAME.waveKills + '/' + GAME.waveGoal);
   document.getElementById('hud-score').textContent = GAME.score;
   document.getElementById('hud-best').textContent = Math.max(GAME.best, GAME.score);
+  // dim player when invuln (flicker via opacity on glow)
+  player.visible = true;
+  if(PLAYER.invuln > 0 && player.userData.glow){
+    player.userData.glow.material.opacity = Math.floor(now()/80) % 2 === 0 ? 0.8 : 0.15;
+  }
 
   // --- Crash recovery ---
   if(GAME.crashed){
@@ -1416,16 +2018,32 @@ function repositionCheckpoint(cp){
   cp.mesh = g;
 }
 
+function playerHit(dmg){
+  if(GAME.crashed || PLAYER.invuln > 0) return;
+  PLAYER.hp -= dmg;
+  PLAYER.invuln = 1.0;
+  GAME.cameraShake = Math.max(GAME.cameraShake, 0.8);
+  const hf = document.getElementById('hurt-flash');
+  hf.style.opacity = 0.9;
+  setTimeout(()=>{ hf.style.opacity = 0; }, 160);
+  if(audioStarted) sfxHurt();
+  if(PLAYER.hp <= 0){
+    PLAYER.hp = 0;
+    triggerCrash(false);
+  }
+}
+
 function triggerCrash(timeout){
   GAME.crashed = true;
   GAME.crashTimer = 1.4;
-  GAME.cameraShake = 1.5;
+  GAME.cameraShake = 1.8;
   PLAYER.speed = Math.max(0, PLAYER.speed * 0.2);
   PLAYER.vx = (Math.random()-0.5) * 6;
   if(audioStarted) sfxCrash();
-  announce(timeout ? "TIME'S UP!" : 'CRASH!', 'Game Over', 1.4);
+  spawnExplosion(PLAYER.x, 0.8, PLAYER.z, true);
+  announce('GAME OVER', 'Pressione R para rejogar', 1.4);
   flash.style.opacity = 1;
-  setTimeout(()=>{ flash.style.opacity = 0; }, 100);
+  setTimeout(()=>{ flash.style.opacity = 0; }, 150);
 }
 
 // =============================================================
